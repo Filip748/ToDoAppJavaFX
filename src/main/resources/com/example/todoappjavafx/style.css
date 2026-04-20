@@ -1,0 +1,101 @@
+
+.root {
+    -fx-background-color: #f5f6fa;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+
+.label {
+    -fx-text-fill: #2f3640;
+    -fx-font-weight: bold;
+}
+
+
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #dcdde1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8;
+}
+.text-field:focus {
+    -fx-border-color: #9c88ff;
+    -fx-border-width: 2;
+}
+
+
+.button-add {
+    -fx-background-color: #9c88ff;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.button-add:hover {
+    -fx-background-color: #8c7ae6;
+}
+
+
+.button-delete {
+    -fx-background-color: #2f3640;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+.button-delete:hover {
+    -fx-background-color: #353b48;
+}
+
+
+.list-view {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-color: #dcdde1;
+    -fx-border-radius: 10;
+    -fx-padding: 5;
+}
+
+
+.list-cell {
+    -fx-padding: 10;
+    -fx-background-color: transparent;
+    -fx-text-fill: #2f3640;
+}
+.list-cell:filled:selected {
+    -fx-background-color: #f1f2f6;
+    -fx-text-fill: #9c88ff;
+}
+
+.button-refresh {
+    -fx-background-color: transparent;
+    -fx-border-color: #2f3640;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-text-fill: #2f3640;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+}
+
+.button-refresh:hover {
+    -fx-background-color: #2f3640;
+    -fx-text-fill: white;
+}
+
+.button-delete-all {
+    -fx-background-color: transparent;
+    -fx-border-color: #9c88ff;
+    -fx-border-radius: 8;
+    -fx-text-fill: #9c88ff;
+    -fx-cursor: hand;
+}
+
+.button-delete-all:hover {
+    -fx-background-color: #9c88ff;
+    -fx-text-fill: white;
+}
+
+
+.check-box .text {
+    -fx-fill: #2f3640;
+    -fx-font-size: 14px;
+}

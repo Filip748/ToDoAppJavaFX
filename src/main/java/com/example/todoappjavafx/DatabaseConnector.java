@@ -25,7 +25,7 @@ public class DatabaseConnector {
             props.load(in);
             this.host = props.getProperty("db.host");
             this.port = props.getProperty("db.port");
-            this.database = props.getProperty("db.databes");
+            this.database = props.getProperty("db.database");
             this.user = props.getProperty("db.user");
             this.password = props.getProperty("db.password");
         } catch (IOException e) {
