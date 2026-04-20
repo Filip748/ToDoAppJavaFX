@@ -22,7 +22,6 @@ public class TaskService {
             Statement stmt = conn.createStatement()) {
 
             stmt.execute(sql);
-            System.out.println("Table 'tasks' is ready");
         } catch (SQLException e) {
             System.err.println("Error in creating table: " + e.getMessage());
             e.printStackTrace();
@@ -37,7 +36,6 @@ public class TaskService {
 
             pstmt.setString(1, title);
             pstmt.executeUpdate();
-            System.out.println("Task '" + title + "' saved in the cloud!");
         } catch(SQLException e) {
             System.err.println("Error add task: " + e.getMessage());
         }
@@ -73,7 +71,6 @@ public class TaskService {
             pstmt.setBoolean(1, isDone);
             pstmt.setInt(2, id);
             pstmt.executeUpdate();
-            System.out.println("Status " + id + " updated");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -87,7 +84,6 @@ public class TaskService {
 
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
-            System.out.println("task " + id + " deleted");
         } catch(SQLException e) {
             e.printStackTrace();
         }

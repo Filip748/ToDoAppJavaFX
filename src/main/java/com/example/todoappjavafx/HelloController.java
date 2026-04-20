@@ -5,6 +5,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import javafx.geometry.Pos;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.control.Label;
+
 import javafx.util.Callback;
 
 public class HelloController {
@@ -31,57 +37,84 @@ public class HelloController {
 
     private void setUpListView() {
         taskListView.setCellFactory(new Callback<ListView<Task>, ListCell<Task>>() {
-           @Override
-           public ListCell<Task> call(ListView<Task> param) {
-               return new ListCell<>() {
-                   private final CheckBox checkBox = new CheckBox();
+            @Override
+            public ListCell<Task> call(ListView<Task> param) {
+                return new ListCell<Task>() {
+                    private final HBox hBox = new HBox();
+                    private final Label label = new Label();
+                    private final CheckBox checkBox = new CheckBox();
+                    private final Region spacer = new Region();
 
-                   @Override
-                   protected void updateItem(Task item, boolean empty) {
-                       super.updateItem(item, empty);
+                    {
+                        hBox.setAlignment(Pos.CENTER_LEFT);
+                        hBox.setSpacing(10);
 
-                       if (empty || item == null) {
-                           setGraphic(null);
-                           setText(null);
-                           setStyle("");
-                       } else {
-                           checkBox.setText(item.getTitle());
-                           checkBox.setSelected(item.isDone());
+                        HBox.setHgrow(spacer, Priority.ALWAYS);
 
-                           checkBox.setOnAction(event -> {
-                               item.setDone(checkBox.isSelected());
-                               taskService.updateTaskStatus(item.getId(), item.isDone());
-                               applyTaskStyle(item.isDone());
-                           });
+                        hBox.getChildren().addAll(label, spacer, checkBox);
+                    }
 
-                           applyTaskStyle(item.isDone());
-                           setGraphic(checkBox);
-                       }
-                   }
+                    @Override
+                    protected void updateItem(Task item, boolean empty) {
+                        super.updateItem(item, empty);
 
-                   private void applyTaskStyle(boolean isDone) {
-                       if (isDone) {
-                           setStyle("-fx-opacity: 0.5;");
-                       } else {
-                           setStyle("-fx-opacity: 1.0;");
-                       }
-                   }
-               };
-           }
+                        if (empty || item == null) {
+                            setGraphic(null);
+                        } else {
+                            label.setText(item.getTitle());
+                            checkBox.setSelected(item.isDone());
+
+                            checkBox.setOnAction(event -> {
+                                boolean newState = checkBox.isSelected();
+                                item.setDone(newState);
+                                applyTaskStyle(newState);
+
+                                new Thread(() -> {
+                                    taskService.updateTaskStatus(item.getId(), newState);
+                                }).start();
+                            });
+
+                            applyTaskStyle(item.isDone());
+                            setGraphic(hBox);
+                        }
+                    }
+
+                    private void applyTaskStyle(boolean isDone) {
+                        if (isDone) {
+                            label.setStyle("-fx-opacity: 0.5; -fx-strikethrough: true;");
+                            setStyle("-fx-background-color: #f9f9f9;");
+                        } else {
+                            label.setStyle("-fx-opacity: 1.0; -fx-strikethrough: false;");
+                            setStyle("");
+                        }
+                    }
+                };
+            }
         });
     }
 
     @FXML
     protected void onAddTaskClick() {
         String title = taskInputField.getText();
-        if (title != null && !title.trim().isEmpty()) {
-            taskInputField.clear();
-
-            new Thread(() -> {
-                taskService.addTask(title);
-                refreshTasks();
-            }).start();
+        if (title == null || title.trim().isEmpty()) {
+            return;
         }
+        taskInputField.clear();
+
+        Task tempTask = new Task(0, title, false);
+        taskItems.add(tempTask);
+
+        new Thread(() -> {
+            try {
+                taskService.addTask(title);
+                javafx.application.Platform.runLater(this::refreshTasks);
+            } catch (Exception e) {
+                javafx.application.Platform.runLater(() -> {
+                    taskItems.remove(tempTask);
+                    System.err.println("error add to base " + e.getMessage());
+                });
+            }
+        }).start();
     }
 
     @FXML
@@ -100,8 +133,18 @@ public class HelloController {
     protected void onDeleteTaskClick() {
         Task selectedTask = taskListView.getSelectionModel().getSelectedItem();
         if (selectedTask != null) {
-            taskService.deleteTask(selectedTask.getId());
-            refreshTasks();
+            int index = taskItems.indexOf(selectedTask);
+            taskItems.remove(selectedTask);
+
+            new Thread(() -> {
+                try {
+                    taskService.deleteTask(selectedTask.getId());
+                } catch (Exception e) {
+                    javafx.application.Platform.runLater(() -> {
+                        taskItems.add(index, selectedTask);
+                    });
+                }
+            }).start();
         }
     }
 

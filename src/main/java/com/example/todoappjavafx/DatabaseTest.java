@@ -7,14 +7,14 @@ public class DatabaseTest {
     public static void main(String[] args) {
         DatabaseConnector connector = new DatabaseConnector();
 
-        System.out.println("Próba połączenia z bazą...");
+        System.out.println("try to connect");
 
         try (Connection conn = connector.getConnection()) {
             if (conn != null) {
-                System.out.println("SUKCES! Połączono z bazą danych w chmurze.");
+                System.out.println("stattus ok");
             }
         } catch (SQLException e) {
-            System.err.println("BŁĄD: Nie udało się połączyć.");
+            System.err.println("status not ok");
             e.printStackTrace();
         }
     }

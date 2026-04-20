@@ -15,8 +15,8 @@ public class HelloApplication extends Application {
         taskService.createTableIfNotExists();
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        Scene scene = new Scene(fxmlLoader.load(), 600, 600);
+        stage.setTitle("To Do App");
         stage.setScene(scene);
         stage.show();
     }
