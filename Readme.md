@@ -21,7 +21,6 @@ To make this app feel seamless, I implemented a few key architectural choices:
    `git clone https://github.com/YourUsername/YourRepoName.git`
 
 2. **Set up the Database connection:**
-   * Navigate to `src/main/resources/`.
    * You will find a file named `db.properties.example`. Rename it to `db.properties`.
    * Open it and fill in your own MySQL database credentials (url, user, password). 
    * *Note: `db.properties` is ignored by Git for security reasons.*
