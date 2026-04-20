@@ -8,7 +8,7 @@
 * **Maven** (Build & Dependency Management)
 * **MySQL via Aiven** (Cloud Database)
 
-##  Under the Hood (Why it feels so fast)
+##  How It Works
 To make this app feel seamless, I implemented a few key architectural choices:
 
 * **Optimistic UI:** When you add, complete, or delete a task, the interface updates *instantly*. You don't have to wait for the server to respond – it feels like a local app, but handles everything securely in the background.
