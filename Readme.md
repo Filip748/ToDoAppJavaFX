@@ -18,7 +18,7 @@ To make this app feel seamless, I implemented a few key architectural choices:
 ## How to run it locally
 
  1. **Clone the repository:**
-   `git clone https://github.com/YourUsername/YourRepoName.git`
+   `git@github.com:Filip748/ToDoAppJavaFX.git`
 
 2. **Set up the Database connection:**
    * You will find a file named `db.properties.example`. Rename it to `db.properties`.
